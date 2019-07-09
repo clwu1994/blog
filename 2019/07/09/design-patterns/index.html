@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="JavaScript设计模式与开发实践笔记第16章 状态模式状态模式的关键是区分事物内部的状态，事物内部的改变往往会带来事物的行为改变。  场景 有一个电灯，电灯上面只有一个开关。当电灯开着的时候，此时按下开关，电灯会切换到关闭状态；再按一次开关，电灯又被打开。同一个开关按钮，不同状态下表现的行为不一样。  现在用代码描述这个场景，Light代表一个电灯类，light是从Light创建出的实例，且">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://github.com/clwu1994/blog/2019/07/09/design-patterns/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JavaScript设计模式与开发实践笔记第16章 状态模式状态模式的关键是区分事物内部的状态，事物内部的改变往往会带来事物的行为改变。  场景 有一个电灯，电灯上面只有一个开关。当电灯开着的时候，此时按下开关，电灯会切换到关闭状态；再按一次开关，电灯又被打开。同一个开关按钮，不同状态下表现的行为不一样。  现在用代码描述这个场景，Light代表一个电灯类，light是从Light创建出的实例，且">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-07T14:23:52.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="JavaScript设计模式与开发实践笔记第16章 状态模式状态模式的关键是区分事物内部的状态，事物内部的改变往往会带来事物的行为改变。  场景 有一个电灯，电灯上面只有一个开关。当电灯开着的时候，此时按下开关，电灯会切换到关闭状态；再按一次开关，电灯又被打开。同一个开关按钮，不同状态下表现的行为不一样。  现在用代码描述这个场景，Light代表一个电灯类，light是从Light创建出的实例，且">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/clwu1994/blog/2019/07/09/design-patterns/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/clwu1994/blog/2019/07/09/design-patterns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-09T23:20:42+08:00">
+                2019-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="JavaScript设计模式与开发实践笔记"><a href="#JavaScript设计模式与开发实践笔记" class="headerlink" title="JavaScript设计模式与开发实践笔记"></a>JavaScript设计模式与开发实践笔记</h3><h4 id="第16章-状态模式"><a href="#第16章-状态模式" class="headerlink" title="第16章 状态模式"></a>第16章 状态模式</h4><p>状态模式的关键是区分事物内部的状态，事物内部的改变往往会带来事物的行为改变。</p>
+<blockquote>
+<p><strong>场景</strong><br> 有一个电灯，电灯上面只有一个开关。当电灯开着的时候，此时按下开关，电灯会切换到关闭状态；再按一次开关，电灯又被打开。同一个开关按钮，不同状态下表现的行为不一样。</p>
+</blockquote>
+<p>现在用代码描述这个场景，Light代表一个电灯类，light是从Light创建出的实例，且拥有两个属性，用state记录电灯的状态，用button记录开关按钮。</p>
+<h4 id="16-1-1-第一个示例：电灯程序"><a href="#16-1-1-第一个示例：电灯程序" class="headerlink" title="16.1.1 第一个示例：电灯程序"></a>16.1.1 第一个示例：电灯程序</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Light</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>() &#123;</span><br><span class="line">		<span class="keyword">this</span>.state = <span class="string">'off'</span>;</span><br><span class="line">		<span class="keyword">this</span>.button = <span class="literal">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 接下来定义init方法，该方法负责在页面创建一个真实的button节点，假设这个button是电灯开关按钮，</span></span><br><span class="line">    <span class="comment">// 当button的onclick事件被触发时，就是电灯开关被按下的时候，代码如下：</span></span><br><span class="line">    init() &#123;</span><br><span class="line">	    <span class="keyword">const</span> button = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>);</span><br><span class="line">	    button.innerHTML = <span class="string">'开关'</span>;</span><br><span class="line">	    <span class="keyword">this</span>.button = <span class="built_in">document</span>.body.appendChild(button);</span><br><span class="line">	    <span class="keyword">this</span>.button.addEventListener(<span class="string">'click'</span>, <span class="attr">this</span>::buttonWasPressed)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 当开关被按下时，程序会调用this.buttonWasPressed方法，开关按下之后的所有行为，都被封装在这个方法里，代码如下：</span></span><br><span class="line">    buttonWasPressed() &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'off'</span>) &#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">'开灯'</span>);</span><br><span class="line">			<span class="keyword">this</span>.state = <span class="string">'on'</span>;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'on'</span>) &#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">'关灯'</span>);</span><br><span class="line">			<span class="keyword">this</span>.state = <span class="string">'off'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> light = <span class="keyword">new</span> Light();</span><br><span class="line">light.init();</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码虽然设计得很好，逻辑既简单又缜密，但是不利于扩展。想想世界上灯泡并非一种，如果引进新的灯泡就需要改动原先的代码。综述上面的例子犯了一下缺点：</p>
+<ol>
+<li>很明显<code>buttonWasPressed</code>方法是违反开放-封闭原则的，每次新增或者修改light的状态，都需要改动<code>buttonWasPressed</code>方法中的代码，这使得<code>buttonWasPressed</code>成为了一个非常不稳定的方法。</li>
+<li>所以跟状态有关的行为，都被封装在<code>buttonWasPressed</code>方法里，如果以后电灯又增加了强光，超强光，终极强光，那我们无法预料到这个方法将膨胀到什么地方。</li>
+<li>状态的切换非常不明显，仅仅表现为对state变量的赋值，比如<code>this.state=&#39;on&#39;</code></li>
+<li>状态之间的切换关系，不过是往<code>buttonWasPressed</code>方法里堆砌<code>if、else</code>语句，增加或者修改了一个状态可能需要改变若干个操作，这使得<code>buttonWasPressed</code>更加难以阅读和维护。</li>
+</ol>
+<h4 id="16-1-2-状态模式改进电灯程序"><a href="#16-1-2-状态模式改进电灯程序" class="headerlink" title="16.1.2 状态模式改进电灯程序"></a>16.1.2 状态模式改进电灯程序</h4><p>通常我们谈到封装，一般会优先封装对象的行为，而不是对象的状态。但在状态模式中刚好相反，状态模式的关键是把事物的每种状态都封装成单独的类，跟此种状态有关的行为都被封装在这个类的内部，所有button被按下的时候，只需要在上下文中，把这个请求委托给当前的状态对象即可，该状态对象会负责渲染它自身的行为。</p>
+<p>下面进入状态莫斯的代码编写阶段，首先将定义3个状态类，分别是OffLightState、WeakLightState、StrongLightState。这三个类都有一个原型方法<code>buttonWasPressed</code>，代表在各自状态下，按钮被按下时将发生的行为，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OffLightState </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OffLightState</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(light) &#123;</span><br><span class="line">		<span class="keyword">this</span>.light = light;</span><br><span class="line">	&#125;</span><br><span class="line">	buttonWasPressed() &#123;</span><br><span class="line">		<span class="comment">// offLightState对应的行为</span></span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'弱光'</span>);</span><br><span class="line">		<span class="comment">// 切换状态到weakLightState</span></span><br><span class="line">		<span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.weakLightState);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// weakLightState</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeakLightState</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(light) &#123;</span><br><span class="line">		<span class="keyword">this</span>.light = light;</span><br><span class="line">	&#125;</span><br><span class="line">	buttonWasPressed() &#123;</span><br><span class="line">		<span class="comment">// weakLightState对应的行为</span></span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'强光'</span>);</span><br><span class="line">		<span class="comment">// 切换状态到strongLightState</span></span><br><span class="line">		<span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.strongLightState);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrongLightState</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(light) &#123;</span><br><span class="line">		<span class="keyword">this</span>.light = light;</span><br><span class="line">	&#125;</span><br><span class="line">	buttonWasPressed() &#123;</span><br><span class="line">		<span class="comment">// strongLightState对应的行为</span></span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'关灯'</span>);</span><br><span class="line">		<span class="comment">// 切换状态到offLightState</span></span><br><span class="line">		<span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.strongLightState);		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来改写Light类，现在不再使用一个字符串来记录当前的状态，而是使用更加立体化的状态对象。我们在Light类的构造函数里为每个状态类都创建一个状态对象，这样一来我们可以很明显地看到电灯一共有多少种状态，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Light</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>() &#123;</span><br><span class="line">		<span class="keyword">this</span>.offLightState = <span class="keyword">new</span> OffLightState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">this</span>.weakLightState = <span class="keyword">new</span> WeakLightState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">this</span>.strongLightState = <span class="keyword">new</span> StrongLightState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">this</span>.button = <span class="literal">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 在button按钮被按下的事件里，Context也不再直接进行任何实质性的操作，而是通过this.currState::buttonWasPressed()将请求委托给当前持有的状态对象去执行</span></span><br><span class="line">	init() &#123;</span><br><span class="line">		<span class="keyword">const</span> button = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>);</span><br><span class="line">        button.innerHTML = <span class="string">'开关'</span>;</span><br><span class="line">        <span class="keyword">this</span>.button = <span class="built_in">document</span>.body.appendChild(button);</span><br><span class="line">        <span class="comment">// 设置当前状态</span></span><br><span class="line">        <span class="keyword">this</span>.currState = <span class="keyword">this</span>.offLightState;</span><br><span class="line">        <span class="keyword">this</span>.button.addEventListener(<span class="string">'click'</span>, <span class="keyword">this</span>.currState::buttonWasPressed)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 通过这个方法来切换light对象的状态。</span></span><br><span class="line">	setState(newState) &#123;</span><br><span class="line">		<span class="keyword">this</span>.currState = newState;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 现在可以进行一些测试：</span></span><br><span class="line"><span class="keyword">const</span> light = <span class="keyword">new</span> Light();</span><br><span class="line">light.init();</span><br></pre></td></tr></table></figure>
+
+<p>使用状态模式的好处是可以使每一种状态和它对应的行为之间的关系局部化，这些行为被分散和封装在各自对应的状态类中，便于阅读和管理代码。</p>
+<h4 id="16-2-状态模式的定义"><a href="#16-2-状态模式的定义" class="headerlink" title="16.2 状态模式的定义"></a>16.2 状态模式的定义</h4><blockquote>
+<p>允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。</p>
+</blockquote>
+<p>我们以逗号分隔，把这句话分为两部分来看。第一部分的意思是将状态封装成独立的类，并将请求委托给当前的状态对象，当对象的内部状态改变时，会带来不同的行为变化。电灯的例子足以说明这一点，在off和on这两种不同的状态下，我们点击同一个按钮，得到的行为反馈是截然不同的。<br>第二部分是从客户的角度来看，我们使用的对象，在不同的状态下具有截然不同的行为，这个对象看起来是从不同的类中实例化来的，实际上这是使用了委托的效果。</p>
+<h4 id="16-3-状态模式的通用结构"><a href="#16-3-状态模式的通用结构" class="headerlink" title="16.3 状态模式的通用结构"></a>16.3 状态模式的通用结构</h4><h4 id="16-4-缺少抽象类的变通方式"><a href="#16-4-缺少抽象类的变通方式" class="headerlink" title="16.4 缺少抽象类的变通方式"></a>16.4 缺少抽象类的变通方式</h4><p>定义一个State的抽象父类，把共同的功能放进抽象父类中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(light) &#123;</span><br><span class="line">		<span class="keyword">this</span>.light = light;</span><br><span class="line">	&#125;</span><br><span class="line">	buttonWasPressed() &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'父类的buttonWasPressed方法必须被重写'</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperStrongLightState</span> <span class="keyword">extends</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">	buttonWasPressed() &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'关灯'</span>);</span><br><span class="line">		<span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.offLightState);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="16-5-另一个状态模式示例—文件上传"><a href="#16-5-另一个状态模式示例—文件上传" class="headerlink" title="16.5 另一个状态模式示例—文件上传"></a>16.5 另一个状态模式示例—文件上传</h4><h4 id="16-5-1-更复杂的切换条件"><a href="#16-5-1-更复杂的切换条件" class="headerlink" title="16.5.1 更复杂的切换条件"></a>16.5.1 更复杂的切换条件</h4><p>相对于电灯的例子，文件上传不同的地方在于，现在我们将面临更加复杂的条件切换关系。在电灯的例子中，电灯的状态总是从关到开再到关，或者从关到弱光、弱光到强光，强光再到关。看起来总是遵循规矩的<code>A-&gt;B-&gt;C-&gt;A</code>，所以即使不使用状态模式来编写电灯的程序，而是使用原始的<code>if、else</code>来控制状态的切换，我们也不至于在逻辑编写中迷失自己，因为状态的切换总死遵循一些简单的规律，而文件上传的状态切换要复杂得多，控制文件上传的流程需要两个节点，第一个用于暂停和继续上传，第二个用于删除文件。</p>
+<p>现在看看文件在不同的状态下，点击这两个按钮将分别发生什么行为。</p>
+<ol>
+<li>文件在扫描状态中，是不能进行任何操作的，既不能暂停也不能删除文件，只能等待扫描完成。扫描完成之后，根据文件的md5值判断，若确认该文件已经文在于服务器，则直接跳到上传完成状态。如果该文件的大小超过允许上传的最大值，或者该文件已经损坏，则跳转到上传失败状态。剩下的情况才进入上传中状态。</li>
+<li>上传过程中可以点击暂停按钮来暂停上传，暂停后点击同一个按钮会继续上传。</li>
+<li>扫描和上传过程中，点击删除按钮无效，只有在暂停、上传完成、上传失败之后，才能删除文件。</li>
+</ol>
+<h4 id="16-5-2-一些准备工作"><a href="#16-5-2-一些准备工作" class="headerlink" title="16.5.2 一些准备工作"></a>16.5.2 一些准备工作</h4><p>上传是一个异步过程，所有控件会不停的调用JavaScript提供的一个全局函数<code>window.external.upload</code>，来通知JavaScript的上传进度，把控件当前的文件状态作为参数<code>state</code>塞进<code>window.external.upload</code>。<code>setTimeout</code>负责模拟上传进度，<code>window.external.upload</code>在此例中只负责打印log：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.external.upload = <span class="function"><span class="keyword">function</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 可能为sign、uploading、done、error</span></span><br><span class="line">	<span class="built_in">console</span>.log(state);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 另外我们需要在页面放置一个用于上传的插件对象：</span></span><br><span class="line"><span class="keyword">const</span> plugin = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">const</span> plugin = <span class="built_in">document</span>.createElement(<span class="string">'embed'</span>);</span><br><span class="line">	plugin.style.display = <span class="string">'none'</span>;</span><br><span class="line">	plugin.type = <span class="string">'application/txftn-wbkit'</span>;</span><br><span class="line">	plugin.sign = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'开始文件扫描'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.pause = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'暂停文件扫描'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.uploading = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'开始文件上传'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.del = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'删除文件上传'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.done = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'文件上传完成'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">document</span>.body.appendChild(plugin);</span><br><span class="line">	<span class="keyword">return</span> plugin;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h4 id="16-5-3-开始编写代码"><a href="#16-5-3-开始编写代码" class="headerlink" title="16.5.3 开始编写代码"></a>16.5.3 开始编写代码</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Upload</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(fileName) &#123;</span><br><span class="line">		<span class="keyword">this</span>.plugin = plugin;</span><br><span class="line">		<span class="keyword">this</span>.fileName = fileName;</span><br><span class="line">		<span class="keyword">this</span>.button1 = <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">this</span>.button2 = <span class="literal">null</span>;</span><br><span class="line">		<span class="comment">// 设置初始状态为waiting</span></span><br><span class="line">		<span class="keyword">this</span>.state = <span class="string">'sign'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// init方法会进行写初始化工作，包括创建页面中的一些节点。在这些节点里，起主要作用的是两个用于控制上传流程的按钮，第一个按钮用于暂停和继续上传，第二个按钮用于删除文件：</span></span><br><span class="line">	init() &#123;</span><br><span class="line">		<span class="keyword">this</span>.dom = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">		<span class="keyword">this</span>.dom.innerHTML = </span><br><span class="line">		<span class="string">`&lt;span&gt;文件名称:<span class="subst">$&#123;<span class="keyword">this</span>.fileName&#125;</span>&lt;/span&gt;\</span></span><br><span class="line"><span class="string">		&lt;button data-action="button1"&gt;扫描中&lt;/button&gt;\</span></span><br><span class="line"><span class="string">		&lt;button data-action="button2"&gt;删除&lt;/button&gt;`</span>;</span><br><span class="line">		<span class="built_in">document</span>.body.appendChild(<span class="keyword">this</span>.dom);</span><br><span class="line">		<span class="comment">// 第一个按钮</span></span><br><span class="line">		<span class="keyword">this</span>.button1 = <span class="keyword">this</span>.dom.querySelector(<span class="string">'[data-action="button1"]'</span>);</span><br><span class="line">		<span class="comment">// 第二个按钮</span></span><br><span class="line">		<span class="keyword">this</span>.button2 = <span class="keyword">this</span>.dom.querySelector(<span class="string">'[data-action="button2"]'</span>);</span><br><span class="line">		<span class="keyword">this</span>.bindEvent();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 接下来需要给两个按钮分别绑定点击事件</span></span><br><span class="line">	bindEvent() &#123;</span><br><span class="line">		<span class="keyword">this</span>.button1.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">			<span class="comment">// 扫描状态下，任何操作无效</span></span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'sign'</span>) &#123;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'扫描中，点击无效...'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 上传中，点击切换到暂停</span></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'uploading'</span>) &#123;</span><br><span class="line">				<span class="keyword">this</span>.changeState(<span class="string">'pause'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 暂停中，点击切换到上传中</span></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'pause'</span>) &#123;</span><br><span class="line">				<span class="keyword">this</span>.changeState(<span class="string">'uploading'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'done'</span>) &#123;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'文件已完成上传，点击无效'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'error'</span>) &#123;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'文件上传失败，点击无效'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		<span class="keyword">this</span>.button2.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'done'</span> || <span class="keyword">this</span>.state === <span class="string">'error'</span> || <span class="keyword">this</span>.state === <span class="string">'pause'</span>) &#123;</span><br><span class="line">				<span class="comment">// 上传完成、上传失败和暂停状态下可以删除</span></span><br><span class="line">				<span class="keyword">this</span>.changeState(<span class="string">'del'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'sign'</span>) &#123;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'文件正在扫描中，不能删除'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'uploading'</span>) &#123;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'文件正在上传中，不能删除'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	changeState(state) &#123;</span><br><span class="line">		<span class="keyword">switch</span>(state) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'sign'</span>:</span><br><span class="line">				<span class="keyword">this</span>.plugin.sign();</span><br><span class="line">				<span class="keyword">this</span>.button1.innerHTML = <span class="string">'扫描中，任何操作无效'</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'uploading'</span>:</span><br><span class="line">				<span class="keyword">this</span>.plugin.uploading();</span><br><span class="line">				<span class="keyword">this</span>.button1.innerHTML = <span class="string">'正在上传，点击暂停'</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'pause'</span>:</span><br><span class="line">				<span class="keyword">this</span>.plugin.pause();</span><br><span class="line">				<span class="keyword">this</span>.button1.innerHTML = <span class="string">'已暂停，点击继续上传'</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'done'</span>:</span><br><span class="line">				<span class="keyword">this</span>.plugin.done();</span><br><span class="line">				<span class="keyword">this</span>.button1.innerHTML = <span class="string">'上传完成'</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'error'</span>:</span><br><span class="line">				<span class="keyword">this</span>.button1.innerHTML = <span class="string">'上传失败'</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'del'</span>:</span><br><span class="line">				<span class="keyword">this</span>.plugin.del();</span><br><span class="line">				<span class="keyword">this</span>.dom.parentNode.removeChild(<span class="keyword">this</span>.dom);</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'删除完成'</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">this</span>.state = state;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 测试代码:</span></span><br><span class="line"><span class="keyword">const</span> uploadObj = <span class="keyword">new</span> Upload(<span class="string">'JavaScript设计模式与开发实践'</span>);</span><br><span class="line">uploadObj.init();</span><br><span class="line"><span class="comment">// 插件调用JavaScript方法</span></span><br><span class="line"><span class="built_in">window</span>.external.upload = <span class="function"><span class="keyword">function</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">	uploadObj.changeState(state);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 模拟上传进度</span></span><br><span class="line"><span class="comment">// 文件开始扫描</span></span><br><span class="line"><span class="built_in">window</span>.external.upload(<span class="string">'sign'</span>);</span><br><span class="line"><span class="comment">// 1秒后开始上传</span></span><br><span class="line">setTIimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">window</span>.external.upload(<span class="string">'uploading'</span>);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br><span class="line"><span class="comment">// 5秒后上传完成</span></span><br><span class="line">etTIimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">window</span>.external.upload(<span class="string">'done'</span>);</span><br><span class="line">&#125;, <span class="number">5000</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="16-5-4-状态模式重构文件上传程序"><a href="#16-5-4-状态模式重构文件上传程序" class="headerlink" title="16.5.4 状态模式重构文件上传程序"></a>16.5.4 状态模式重构文件上传程序</h4><p>第一步仍然是提供<code>window.external.upload</code>函数，在页面中模拟创建上传插件，这部分代码没有改变：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.external.upload = <span class="function"><span class="keyword">function</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 可能为sign、uploading、done、error</span></span><br><span class="line">	<span class="built_in">console</span>.log(state);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> plugin = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">const</span> plugin = <span class="built_in">document</span>.createElement(<span class="string">'embed'</span>);</span><br><span class="line">	plugin.style.display = <span class="string">'none'</span>;</span><br><span class="line">	plugin.type = <span class="string">'application/txftn-wbkit'</span>;</span><br><span class="line">	plugin.sign = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'开始文件扫描'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.pause = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'暂停文件扫描'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.uploading = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'开始文件上传'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.del = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'删除文件上传'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	plugin.done = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'文件上传完成'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">document</span>.body.appendChild(plugin);</span><br><span class="line">	<span class="keyword">return</span> plugin;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>第二部，改造Upload构造函数，在构造函数中为每种状态子类都创建一个实例对象:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Upload</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(fileName) &#123;</span><br><span class="line">		<span class="keyword">this</span>.plugin = plugin;</span><br><span class="line">		<span class="keyword">this</span>.fileName = fileName;</span><br><span class="line">		<span class="keyword">this</span>.button1 = <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">this</span>.button2 = <span class="literal">null</span>;</span><br><span class="line">		<span class="comment">// 设置初始状态为waiting</span></span><br><span class="line">		<span class="keyword">this</span>.signState = <span class="keyword">new</span> SignState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">this</span>.uploadingState = <span class="keyword">new</span> UpladState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">this</span>.pauseState = <span class="keyword">new</span> PauseState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">this</span>.doneState = <span class="keyword">new</span> DoneState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">this</span>.errorState = <span class="keyword">new</span> ErrorState(<span class="keyword">this</span>);</span><br><span class="line">		<span class="comment">// 设置当前状态</span></span><br><span class="line">		<span class="keyword">this</span>.currState = <span class="keyword">this</span>.signState;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第三步，init方法无需改变，仍然负责往页面中创建跟上传流程有关的DOM节点，并开始绑定按钮的事件:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">init() &#123;</span><br><span class="line">	<span class="keyword">this</span>.dom = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">	<span class="keyword">this</span>.dom.innerHTML = </span><br><span class="line">	<span class="string">`&lt;span&gt;文件名称:<span class="subst">$&#123;<span class="keyword">this</span>.fileName&#125;</span>&lt;/span&gt;\</span></span><br><span class="line"><span class="string">	&lt;button data-action="button1"&gt;扫描中&lt;/button&gt;\</span></span><br><span class="line"><span class="string">	&lt;button data-action="button2"&gt;删除&lt;/button&gt;`</span>;</span><br><span class="line">	<span class="built_in">document</span>.body.appendChild(<span class="keyword">this</span>.dom);</span><br><span class="line">	<span class="comment">// 第一个按钮</span></span><br><span class="line">	<span class="keyword">this</span>.button1 = <span class="keyword">this</span>.dom.querySelector(<span class="string">'[data-action="button1"]'</span>);</span><br><span class="line">	<span class="comment">// 第二个按钮</span></span><br><span class="line">	<span class="keyword">this</span>.button2 = <span class="keyword">this</span>.dom.querySelector(<span class="string">'[data-action="button2"]'</span>);</span><br><span class="line">	<span class="keyword">this</span>.bindEvent();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第四步，负责具体的按钮事件实现，在点击了按钮之后，<code>Context</code>并不做任何具体的操作，而是把请求委托给当前的状态类来执行:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">bindEvent() &#123;</span><br><span class="line">	<span class="keyword">this</span>.button1.addEventListener(<span class="string">'click'</span>, <span class="keyword">this</span>.currState::clickHandler1);</span><br><span class="line">	<span class="keyword">this</span>.button2.addEventListener(<span class="string">'click'</span>, <span class="keyword">this</span>.currState::clickHandler2);</span><br><span class="line">&#125;</span><br><span class="line">sign() &#123;</span><br><span class="line">	<span class="keyword">this</span>.plugin.sign();</span><br><span class="line">	<span class="keyword">this</span>.currenState = <span class="keyword">this</span>.signState;</span><br><span class="line">&#125;</span><br><span class="line">uploading() &#123;</span><br><span class="line">	<span class="keyword">this</span>.button1.innerHTML = <span class="string">'正在上传，点击暂停'</span>;</span><br><span class="line">	<span class="keyword">this</span>.plugin.uploading();</span><br><span class="line">	<span class="keyword">this</span>.currState = <span class="keyword">this</span>.uploadingState;</span><br><span class="line">&#125;</span><br><span class="line">pause() &#123;</span><br><span class="line">	<span class="keyword">this</span>.button1.innerHTML = <span class="string">'已暂停，点击继续上传'</span>;</span><br><span class="line">	<span class="keyword">this</span>.plugin.pause();</span><br><span class="line">	<span class="keyword">this</span>.currState = <span class="keyword">this</span>.pauseState;</span><br><span class="line">&#125;</span><br><span class="line">done() &#123;</span><br><span class="line">	<span class="keyword">this</span>.button1.innerHTML = <span class="string">'上传完成'</span>;</span><br><span class="line">	<span class="keyword">this</span>.plugin.done();</span><br><span class="line">	<span class="keyword">this</span>.currState = <span class="keyword">this</span>.doneState;</span><br><span class="line">&#125;</span><br><span class="line">error() &#123;</span><br><span class="line">	<span class="keyword">this</span>.button1.innerHTML = <span class="string">'上传失败'</span>;</span><br><span class="line">	<span class="keyword">this</span>.currState = <span class="keyword">this</span>.errorState;</span><br><span class="line">&#125;</span><br><span class="line">del() &#123;</span><br><span class="line">	<span class="keyword">this</span>.plugin.del();</span><br><span class="line">	<span class="keyword">this</span>.dom.parentNode.removeChild(<span class="keyword">this</span>.dom);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第五步，使用StateFactory编写各个状态类的实现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(uploadObj) &#123;</span><br><span class="line">		<span class="keyword">this</span>.uploadObj = uploadObj;</span><br><span class="line">	&#125;</span><br><span class="line">	clickHandler1() &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'子类必须重写父类的clickHanler1方法'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	clickHanlder2() &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'子类必须重写父类的clickHandler2方法'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SignState</span> <span class="keyword">extends</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">	clickHandler1() &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'扫描中，点击无效...'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	clickHandler2() &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'文件正在上传中，不能删除'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadingState</span> <span class="keyword">extends</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">	clickHandler1() &#123;</span><br><span class="line">		<span class="keyword">this</span>.uploadObj.pause();</span><br><span class="line">	&#125;</span><br><span class="line">	clickHandler2() &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'文件正在上传中，不能删除'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PauseState</span> <span class="keyword">extends</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">	clickHandler1() &#123;</span><br><span class="line">		<span class="keyword">this</span>.uploadObj.uploading);</span><br><span class="line">	&#125;</span><br><span class="line">	clickHandler2() &#123;</span><br><span class="line">		<span class="keyword">this</span>.uploadObj.del();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ErrorState</span> <span class="keyword">extends</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">	clickHandler1() &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'文件上传失败，点击无效'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	clickHandler2() &#123;</span><br><span class="line">		<span class="keyword">this</span>.uploadObj.del();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line"><span class="keyword">const</span> uploadObj = <span class="keyword">new</span> Upload(<span class="string">'JavaScript设计模式与开发实践'</span>);</span><br><span class="line">uploadObj.init();</span><br><span class="line"><span class="built_in">window</span>.external.upload = <span class="function"><span class="keyword">function</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">	uploadObj[state]();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 模拟上传进度</span></span><br><span class="line"><span class="built_in">window</span>.external.upload(<span class="string">'sign'</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 1秒后开始上传</span></span><br><span class="line">	<span class="built_in">window</span>.external.upload(<span class="string">'uploading'</span>);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 5秒后上传完成</span></span><br><span class="line">	<span class="built_in">window</span>.external.upload(<span class="string">'done'</span>);</span><br><span class="line">&#125;, <span class="number">5000</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="16-6-状态模式的优缺点"><a href="#16-6-状态模式的优缺点" class="headerlink" title="16.6 状态模式的优缺点"></a>16.6 状态模式的优缺点</h4><p>状态模式的优点如下：</p>
+<ol>
+<li>状态模式定义了状态与行为之间的关系，并将它们封装在一个类里。通过增加新的状态类，很容易增加新的状态和转换。</li>
+<li>避免<code>Context</code>无限膨胀，状态切换的逻辑被分布在状态类中，也去掉了<code>Context</code>中原本过多的条件分支。</li>
+<li>用对象代替字符串来记录当前的状态，使得状态的切换更加一目了然。</li>
+<li>Context中的请求动作和状态类中的封装行为可以非常容易地独立变化而互不影响。</li>
+</ol>
+<p>状态模式的缺点是会在系统中定义许多状态类，且逻辑分散，不能一眼看出整个状态机的逻辑。</p>
+<h4 id="16-7-状态模式的性能优化点"><a href="#16-7-状态模式的性能优化点" class="headerlink" title="16.7 状态模式的性能优化点"></a>16.7 状态模式的性能优化点</h4><ol>
+<li>state对象的创建销毁时机</li>
+<li>利用<code>亨元模式</code>使得各个<code>Context</code>共享一个<code>state</code>对象</li>
+</ol>
+<h4 id="16-8-状态模式和策略模式的关系"><a href="#16-8-状态模式和策略模式的关系" class="headerlink" title="16.8 状态模式和策略模式的关系"></a>16.8 状态模式和策略模式的关系</h4><p>相同点：他们都有上下文、一些策略或者状态类，上下文把请求委托给这些类来执行。<br>区别：使用场景不一样，策略模式多用于客户封装了一系列算法，在需要的时候切换使用；而状态模式中状态和状态对应的行为是早已封装好的，状态之间的切换也是早就规定好了，”改变行为”这件事发生在状态模式内部，对客户来说不需要了解其实现细节。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/09/jquery-analysis/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="John Doe">
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaScript设计模式与开发实践笔记"><span class="nav-number">1.</span> <span class="nav-text">JavaScript设计模式与开发实践笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第16章-状态模式"><span class="nav-number">1.1.</span> <span class="nav-text">第16章 状态模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-1-1-第一个示例：电灯程序"><span class="nav-number">1.2.</span> <span class="nav-text">16.1.1 第一个示例：电灯程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-1-2-状态模式改进电灯程序"><span class="nav-number">1.3.</span> <span class="nav-text">16.1.2 状态模式改进电灯程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-2-状态模式的定义"><span class="nav-number">1.4.</span> <span class="nav-text">16.2 状态模式的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-3-状态模式的通用结构"><span class="nav-number">1.5.</span> <span class="nav-text">16.3 状态模式的通用结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-4-缺少抽象类的变通方式"><span class="nav-number">1.6.</span> <span class="nav-text">16.4 缺少抽象类的变通方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-5-另一个状态模式示例—文件上传"><span class="nav-number">1.7.</span> <span class="nav-text">16.5 另一个状态模式示例—文件上传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-5-1-更复杂的切换条件"><span class="nav-number">1.8.</span> <span class="nav-text">16.5.1 更复杂的切换条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-5-2-一些准备工作"><span class="nav-number">1.9.</span> <span class="nav-text">16.5.2 一些准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-5-3-开始编写代码"><span class="nav-number">1.10.</span> <span class="nav-text">16.5.3 开始编写代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-5-4-状态模式重构文件上传程序"><span class="nav-number">1.11.</span> <span class="nav-text">16.5.4 状态模式重构文件上传程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-6-状态模式的优缺点"><span class="nav-number">1.12.</span> <span class="nav-text">16.6 状态模式的优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-7-状态模式的性能优化点"><span class="nav-number">1.13.</span> <span class="nav-text">16.7 状态模式的性能优化点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-8-状态模式和策略模式的关系"><span class="nav-number">1.14.</span> <span class="nav-text">16.8 状态模式和策略模式的关系</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
