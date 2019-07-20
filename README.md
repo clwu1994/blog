@@ -1,5 +1,6 @@
 ### todolist
-- [ ] 深入浅出nodejs读书笔记
+[深入浅出nodejs读书笔记](https://github.com/clwu1994/learn-node)
+<!-- - [ ] 深入浅出nodejs读书笔记
 - [ ] gitLib CI/CD
 - [ ] Jenkins
 - [ ] vuejs core源码 以阅读源码分析和看视频讲解的形式掌握vue源码部分
@@ -8,4 +9,4 @@
 - [ ] react core源码 以阅读源码分析和看视频讲解的形式掌握react源码部分
 - [ ] flutter
 - [ ] 微前端，阅读phodal大大的《微前端架构-从入门到微前端》
-- [ ] Serverless架构
+- [ ] Serverless架构 -->
