@@ -264,6 +264,213 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/clwu1994/blog/blog/2019/07/22/常见面试题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xunm">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xunm的前端blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog/2019/07/22/常见面试题/" itemprop="url">常见面试题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T17:26:00+08:00">
+                2019-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="常见面试题"><a href="#常见面试题" class="headerlink" title="常见面试题"></a>常见面试题</h3><h5 id="1-如何实现ajax请求"><a href="#1-如何实现ajax请求" class="headerlink" title="1.  如何实现ajax请求"></a>1.  如何实现ajax请求</h5><ul>
+<li>通过实例化一个XMLHttpRequest对象得到一个实例</li>
+<li>调用实例的open方法为这次 ajax请求设定相应的http方法、相应的地址和以及是否异步，当然大多数情况下我们都是选异步</li>
+<li>以异步为例，之后调用send方法ajax请求，这个方法可以设定需要发送的报文主体</li>
+<li>然后通过 监听readystatechange事件，通过这个实例的readyState属性来判断这个ajax请求的状态，其中分为0,1,2,3,4这四种 状态，当状态为4的时候也就是接收数据完成的时候，这时候可以通过实例的status属性判断这个请求是否成功<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var xhr = new XMLHttpRequest();</span><br><span class="line">xhr.open(&apos;get&apos;, &apos;aabb.php&apos;, true);</span><br><span class="line">xhr.send(null);</span><br><span class="line">xhr.onreadystatechange = function() &#123;</span><br><span class="line">  if(xhr.readyState==4) &#123;</span><br><span class="line">    if(xhr.status==200) &#123;</span><br><span class="line">      console.log(xhr.responseText);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="javascript有哪几种数据类型"><a href="#javascript有哪几种数据类型" class="headerlink" title="javascript有哪几种数据类型"></a>javascript有哪几种数据类型</h5><p>六种基本数据类型</p>
+<ul>
+<li>undefined</li>
+<li>null</li>
+<li>string</li>
+<li>boolean</li>
+<li>number</li>
+<li>symbol（ES6）</li>
+</ul>
+<p>一种引用数据类型</p>
+<ul>
+<li>Object<h5 id="什么闭包，闭包有什么用"><a href="#什么闭包，闭包有什么用" class="headerlink" title="什么闭包，闭包有什么用"></a>什么闭包，闭包有什么用</h5>闭包是在某个作用域内定义的函数，它可以访问这个作用域内的所有变量。闭包作用域链通常包括三个部分：</li>
+</ul>
+<ol>
+<li>函数本身作用域。</li>
+<li>闭包定义时的作用域。</li>
+<li>全局作用域。</li>
+</ol>
+<p>闭包常见用途：</p>
+<ol>
+<li>创建特权方法用于访问控制</li>
+<li>事件处理程序及回调</li>
+</ol>
+<p>JavaScript有哪几种方法定义函数</p>
+<ol>
+<li>函数声明</li>
+<li>函数表达式</li>
+<li>ES6箭头函数</li>
+</ol>
+<h5 id="客户端存储localStorage和SessionStorage"><a href="#客户端存储localStorage和SessionStorage" class="headerlink" title="客户端存储localStorage和SessionStorage"></a>客户端存储localStorage和SessionStorage</h5><ul>
+<li>localStorage有效期为永久，sessionStorage有效期为顶层窗口关闭前</li>
+<li>同源文档可以读取并修改localStorage数据，sessionStorage只允许同一个窗口下的文档访问，如通过iframe引入的同源文档。</li>
+<li>Storage对象通常被当做普通javascript对象使用：通过设置属性来存取字符串值，Storage对象的API：setItem(key, value)设置，getItem(key)读取，removeItem(key)删除，clear()删除所有数据，length表示已存储的数据项数目，key(index)返回对应索引的key<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 枚举所有存储的键值对</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = localStorage.length; i &lt; len; ++i ) &#123;</span><br><span class="line">    <span class="keyword">var</span> name = localStorage.key(i);</span><br><span class="line">    <span class="keyword">var</span> value = localStorage.getItem(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="cookie及其操作"><a href="#cookie及其操作" class="headerlink" title="cookie及其操作"></a>cookie及其操作</h5><ul>
+<li>cookie是web浏览器存储的少量数据，最早设计为服务器端使用，作为HTTP协议的扩展出现。cookie数据会自动在浏览器和服务器之间传输。</li>
+<li>通过读写cookie检测是否支持</li>
+<li>document.cookie setItem参数有key，value，max-age，path，domain<h5 id="link与-import的区别"><a href="#link与-import的区别" class="headerlink" title="link与@import的区别"></a>link与@import的区别</h5></li>
+</ul>
+<ol>
+<li>link是HTML方式， @import是CSS方式</li>
+<li>link最大限度支持并行下载，@import过多嵌套导致串行下载，出现FOUC</li>
+<li>link可以通过rel=”alternate stylesheet”指定候选样式</li>
+<li>浏览器对link支持早于@import，可以使用@import对老浏览器隐藏样式</li>
+<li>@import必须在样式规则之前，可以在css文件中引用其他文件</li>
+<li>总体来说：link优于@import</li>
+</ol>
+<h5 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h5><p>mvvm由以下三个内容组成</p>
+<ul>
+<li>View：界面</li>
+<li>Model：数据模型</li>
+<li>ViewModel：作为桥梁负责沟通View和Model</li>
+</ul>
+<p>在jQuery时期，如果需要刷新UI时，需要先取到对应的DOM再更新UI，这样数据和业务的逻辑就和页面有强耦合。<br>在MVVM中，UI是通过数据驱动的，数据一旦改变就会相应的刷新对应的UI，UI如果改变，也会改变对应的数据。这种方式就可以在业务处理中只关心数据的流转，而无需直接和页面打交道。ViewModel只关心数据和业务的处理，不关心View如何处理数据，这种情况下，View和Model都可以独立出来，任何一方改变了也不一定需要改变另一方，并且可以将一些可复用的逻辑放在一个ViewModel中，让多个View复用这个ViewModel。<br>在MVVM中，最核心的也就是数据双向绑定，例如Angluar的脏数据检测，Vue中的数据劫持。</p>
+<h5 id="脏数据检测"><a href="#脏数据检测" class="headerlink" title="脏数据检测"></a>脏数据检测</h5><h5 id="数据劫持"><a href="#数据劫持" class="headerlink" title="数据劫持"></a>数据劫持</h5><p>Vue内部使用了Object.definpropty() 中的get和set方法监听数据。<br>在解析模板代码时，会实例化属性的watcher对象，并且把它挂在到Dep.target属性上。<br>通过触发属性的get取值函数把相关的watcher实例添加到dep的subs属性中。<br>当数据发生变化时，触发属性的set存值函数，调用dep对象的notify方法，主要内容是遍历相关的watcher实例，调用其对应的update方法，更新视图。</p>
+<h5 id="面向过程和面向对象的区别？"><a href="#面向过程和面向对象的区别？" class="headerlink" title="面向过程和面向对象的区别？"></a>面向过程和面向对象的区别？</h5><p>面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个调用就可以了。<br>面向对象是把构成问题事务分解成各个对象，建立对象的目的不是为了完成一个步骤，而是为了描述某个事物在整个解决问题的步骤中的行为。</p>
+<h5 id="箭头函数表达式和普通函数的区别"><a href="#箭头函数表达式和普通函数的区别" class="headerlink" title="箭头函数表达式和普通函数的区别"></a>箭头函数表达式和普通函数的区别</h5><p>箭头函数表达式的语法比函数表达式更简洁，并且没有自己的this，arguments，super或 new.target。<br>更短的函数、不绑定this、通过 call 或 apply 调用第一个参数忽略、不绑定arguments、箭头函数不能用作构造器，和 new一起用会抛出错误、箭头函数没有prototype属性、箭头函数不能用作生成器</p>
+<h5 id="vdom是什么？为何会存在vdom？"><a href="#vdom是什么？为何会存在vdom？" class="headerlink" title="vdom是什么？为何会存在vdom？"></a>vdom是什么？为何会存在vdom？</h5><p>不用vdom遇到的问题：</p>
+<ul>
+<li>DOM操作是“昂贵”的，js运行效率高</li>
+<li>尽量减少DOM操作，而不是“推到重来”</li>
+<li>项目越复杂，影响就越严重</li>
+<li>vdom即可解决这个问题<br>问题解答：</li>
+<li>virtual dom，虚拟DOM</li>
+<li>用JS模拟DOM结构</li>
+<li>DOM操作非常“昂贵”</li>
+<li>将DOM对比操作放在JS层，提高效率<h5 id="vdom如何应用，核心API是什么？"><a href="#vdom如何应用，核心API是什么？" class="headerlink" title="vdom如何应用，核心API是什么？"></a>vdom如何应用，核心API是什么？</h5></li>
+<li>h(‘&lt;标签名&gt;’, {…属性…}, […子元素…])</li>
+<li>h(‘&lt;标签名&gt;’, {…属性…}, ‘…’)</li>
+<li>patch(container, vnode)</li>
+<li>patch(vnode, newVnode)<br>问题解答：</li>
+<li>如何使用？可用snabbdom的用法来举例</li>
+<li>核心API：h函数返回vnode、patch函数打补丁<h5 id="介绍一下diff算法？"><a href="#介绍一下diff算法？" class="headerlink" title="介绍一下diff算法？"></a>介绍一下diff算法？</h5>问题解答：</li>
+<li>知道什么是diff算法，是linux的基础命令</li>
+<li>vdom中应用diff算法是为了找出要更新的节点</li>
+<li>diff实现，patch(container, vnode) patch(vnode, newVnode)</li>
+<li>核心逻辑，createElement和updateChildren<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createElement</span>(<span class="params">vnode</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> tag = vnode.tag</span><br><span class="line">	<span class="keyword">var</span> attrs = vnode.attrs || &#123;&#125;</span><br><span class="line">	<span class="keyword">var</span> children = vnode.children || []</span><br><span class="line">	<span class="keyword">if</span> (!tag) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 创建元素</span></span><br><span class="line">	<span class="keyword">var</span> elem = <span class="built_in">document</span>.createElement(tag)</span><br><span class="line">	<span class="comment">// 属性</span></span><br><span class="line">	<span class="keyword">var</span> attrName</span><br><span class="line">	<span class="keyword">for</span> (attrName <span class="keyword">in</span> attrs) &#123;</span><br><span class="line">		<span class="keyword">if</span> (attrs.hasOwnProperty(attrName)) &#123;</span><br><span class="line">			elem.setAttribute(attrName, attrs[attrName])</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 子元素</span></span><br><span class="line">	children.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">childVnode</span>) </span>&#123;</span><br><span class="line">		<span class="comment">// 递归调用createElement创建子元素</span></span><br><span class="line">		elem.appendChild(createElement(childVnode))</span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="keyword">return</span> elem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/clwu1994/blog/blog/2019/07/13/vuex源码注释/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1505,7 +1712,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/blog/archives/">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
