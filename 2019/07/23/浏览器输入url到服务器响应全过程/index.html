@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="setTimeout的封装12345678910function time(f, time) &amp;#123;    return function walk() &amp;#123;        setTimeout(function () &amp;#123;            f();            walk();         &amp;#125;, time);    &amp;#125;;&amp;#125;ti">
+<meta name="description" content="浏览器输入url到服务器响应全过程当在浏览器地址栏中输入一串域名“https://www.google.com”时候，都发生了什么呢？  首先浏览器会去缓存系统找是否有301永久重定向的缓存，如果有就直接跳转重定向的网址 如果未找到，就会去浏览器找缓存系统，即这个网页上次访问响应头设置了expires和max-age强制缓存 如果强制缓存未命中，会去DNS寻址，先去windows下 C:\Wind">
 <meta name="keywords" content="web, javascript, node, blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="setTimeout的封装">
-<meta property="og:url" content="https://github.com/clwu1994/blog/2019/05/09/setTimeout的封装/index.html">
+<meta property="og:title" content="浏览器输入url到服务器响应全过程">
+<meta property="og:url" content="https://github.com/clwu1994/blog/2019/07/23/浏览器输入url到服务器响应全过程/index.html">
 <meta property="og:site_name" content="xunm的前端blog">
-<meta property="og:description" content="setTimeout的封装12345678910function time(f, time) &amp;#123;    return function walk() &amp;#123;        setTimeout(function () &amp;#123;            f();            walk();         &amp;#125;, time);    &amp;#125;;&amp;#125;ti">
+<meta property="og:description" content="浏览器输入url到服务器响应全过程当在浏览器地址栏中输入一串域名“https://www.google.com”时候，都发生了什么呢？  首先浏览器会去缓存系统找是否有301永久重定向的缓存，如果有就直接跳转重定向的网址 如果未找到，就会去浏览器找缓存系统，即这个网页上次访问响应头设置了expires和max-age强制缓存 如果强制缓存未命中，会去DNS寻址，先去windows下 C:\Wind">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-07-13T03:54:01.285Z">
+<meta property="og:updated_time" content="2019-07-23T12:56:21.092Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="setTimeout的封装">
-<meta name="twitter:description" content="setTimeout的封装12345678910function time(f, time) &amp;#123;    return function walk() &amp;#123;        setTimeout(function () &amp;#123;            f();            walk();         &amp;#125;, time);    &amp;#125;;&amp;#125;ti">
+<meta name="twitter:title" content="浏览器输入url到服务器响应全过程">
+<meta name="twitter:description" content="浏览器输入url到服务器响应全过程当在浏览器地址栏中输入一串域名“https://www.google.com”时候，都发生了什么呢？  首先浏览器会去缓存系统找是否有301永久重定向的缓存，如果有就直接跳转重定向的网址 如果未找到，就会去浏览器找缓存系统，即这个网页上次访问响应头设置了expires和max-age强制缓存 如果强制缓存未命中，会去DNS寻址，先去windows下 C:\Wind">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/clwu1994/blog/2019/05/09/setTimeout的封装/">
+  <link rel="canonical" href="https://github.com/clwu1994/blog/2019/07/23/浏览器输入url到服务器响应全过程/">
 
 
 
 
 
-  <title>setTimeout的封装 | xunm的前端blog</title>
+  <title>浏览器输入url到服务器响应全过程 | xunm的前端blog</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/clwu1994/blog/blog/2019/05/09/setTimeout的封装/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/clwu1994/blog/blog/2019/07/23/浏览器输入url到服务器响应全过程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xunm">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">setTimeout的封装</h1>
+          <h1 class="post-title" itemprop="name headline">浏览器输入url到服务器响应全过程</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-09T19:23:44+08:00">
-                2019-05-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-23T20:03:57+08:00">
+                2019-07-23
               </time>
             
 
@@ -330,7 +330,22 @@
       
 
       
-        <h3 id="setTimeout的封装"><a href="#setTimeout的封装" class="headerlink" title="setTimeout的封装"></a>setTimeout的封装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function time(f, time) &#123;</span><br><span class="line">    return function walk() &#123;</span><br><span class="line">        setTimeout(function () &#123;</span><br><span class="line">            f();</span><br><span class="line">            walk(); </span><br><span class="line">        &#125;, time);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">time(updateFormat, 1000)();</span><br></pre></td></tr></table></figure>
+        <h3 id="浏览器输入url到服务器响应全过程"><a href="#浏览器输入url到服务器响应全过程" class="headerlink" title="浏览器输入url到服务器响应全过程"></a>浏览器输入url到服务器响应全过程</h3><p>当在浏览器地址栏中输入一串域名“<a href="https://www.google.com”时候，都发生了什么呢？" target="_blank" rel="noopener">https://www.google.com”时候，都发生了什么呢？</a></p>
+<ol>
+<li>首先浏览器会去缓存系统找是否有301永久重定向的缓存，如果有就直接跳转重定向的网址</li>
+<li>如果未找到，就会去浏览器找缓存系统，即这个网页上次访问响应头设置了expires和max-age强制缓存</li>
+<li>如果强制缓存未命中，会去DNS寻址，先去windows下 C:\Windows\System32\drivers\etc中hosts文件找对应域名是否配置相关ip地址映射，找到了就返回对应的ip地址</li>
+<li>如果未找到DNS客户端会去DNS缓存系统中去找，找到了就返回对应的ip地址</li>
+<li>没找到会去查询就近的DNS服务器，找到了就返回对应的ip地址，因为DNS服务器是分布式的数据库，所以就近的DNS服务器没找到对应的ip地址会去找更上层的DNS服务器，直到找到返回ip地址，未找到返回找不到网址</li>
+<li>DNS寻址拿到域名对应的ip地址过后，浏览器通过http协议三次握手与服务端建立tcp/ip连接</li>
+<li>http协议的三次握手过程大概是：<br><a href="../../public/images/af92abd0-c8bc-3954-a06c-9f6a9f049452.jpg">TCP三次握手</a></li>
+</ol>
+<ul>
+<li>第一次握手：主机A发送位码为syn=1，随机产生seq number=0的数据包到服务器，主机B由syn=1知道，A要求建立联机；</li>
+<li>第二次握手：主机B收到请求后要确认联机信息，向A发送ack number=(主机A的seq+1)，syn=1，ack=1，随机产生seq=7654321的包</li>
+<li>第三次握手：主机A收到后检查ack number是否正确，即第一次发送的seq number+1,以及位码ack是否为1，若正确，主机A会再发送ack number=(主机B的seq+1),ack=1，主机B收到后确认seq值与ack=1则连接建立成功。<br>完成三次握手，主机A与主机B开始传送数据。</li>
+</ul>
+
       
     </div>
     
@@ -354,15 +369,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/blog/2019/07/22/常见面试题/" rel="next" title="常见面试题">
+                <i class="fa fa-chevron-left"></i> 常见面试题
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2019/05/11/如何将generator函数转为类async函数/" rel="prev" title="如何将generator函数转为类async函数？">
-                如何将generator函数转为类async函数？ <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -476,7 +491,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout的封装"><span class="nav-number">1.</span> <span class="nav-text">setTimeout的封装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器输入url到服务器响应全过程"><span class="nav-number">1.</span> <span class="nav-text">浏览器输入url到服务器响应全过程</span></a></li></ol></div>
             
 
           </div>
