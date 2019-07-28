@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="JSONP原理1234567891011121314151617181920212223242526272829303132333435363738394041424344454647var count = 0;function noop() &amp;#123;&amp;#125;function jsonp(url, opts, fn) &amp;#123;	// 容错，第二个参数传函数的情况	if (typeof">
+<meta name="description" content="Nginx下载地址  proxy_passnginx反向代理主要通过proxy_pass来配置，将你项目的开发机地址填写到proxy_pass后面，正常的格式为proxy_pass URL即可 123456server &amp;#123;    listen 80;    location / &amp;#123;        proxy_pass http://10.10.10.10:20186;">
 <meta name="keywords" content="web, javascript, node, blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JSONP原理">
-<meta property="og:url" content="https://github.com/clwu1994/blog/2019/06/30/jsonp源码实现/index.html">
+<meta property="og:title" content="Nginx实践">
+<meta property="og:url" content="https://github.com/clwu1994/blog/2019/07/28/Nginx实践/index.html">
 <meta property="og:site_name" content="xunm的前端blog">
-<meta property="og:description" content="JSONP原理1234567891011121314151617181920212223242526272829303132333435363738394041424344454647var count = 0;function noop() &amp;#123;&amp;#125;function jsonp(url, opts, fn) &amp;#123;	// 容错，第二个参数传函数的情况	if (typeof">
+<meta property="og:description" content="Nginx下载地址  proxy_passnginx反向代理主要通过proxy_pass来配置，将你项目的开发机地址填写到proxy_pass后面，正常的格式为proxy_pass URL即可 123456server &amp;#123;    listen 80;    location / &amp;#123;        proxy_pass http://10.10.10.10:20186;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-07-13T03:49:47.185Z">
+<meta property="og:updated_time" content="2019-07-28T15:20:22.151Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JSONP原理">
-<meta name="twitter:description" content="JSONP原理1234567891011121314151617181920212223242526272829303132333435363738394041424344454647var count = 0;function noop() &amp;#123;&amp;#125;function jsonp(url, opts, fn) &amp;#123;	// 容错，第二个参数传函数的情况	if (typeof">
+<meta name="twitter:title" content="Nginx实践">
+<meta name="twitter:description" content="Nginx下载地址  proxy_passnginx反向代理主要通过proxy_pass来配置，将你项目的开发机地址填写到proxy_pass后面，正常的格式为proxy_pass URL即可 123456server &amp;#123;    listen 80;    location / &amp;#123;        proxy_pass http://10.10.10.10:20186;">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/clwu1994/blog/2019/06/30/jsonp源码实现/">
+  <link rel="canonical" href="https://github.com/clwu1994/blog/2019/07/28/Nginx实践/">
 
 
 
 
 
-  <title>JSONP原理 | xunm的前端blog</title>
+  <title>Nginx实践 | xunm的前端blog</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/clwu1994/blog/blog/2019/06/30/jsonp源码实现/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/clwu1994/blog/blog/2019/07/28/Nginx实践/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xunm">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JSONP原理</h1>
+          <h1 class="post-title" itemprop="name headline">Nginx实践</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-30T20:12:00+08:00">
-                2019-06-30
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-28T22:34:27+08:00">
+                2019-07-28
               </time>
             
 
@@ -330,7 +330,54 @@
       
 
       
-        <h3 id="JSONP原理"><a href="#JSONP原理" class="headerlink" title="JSONP原理"></a>JSONP原理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">var count = 0;</span><br><span class="line">function noop() &#123;&#125;</span><br><span class="line">function jsonp(url, opts, fn) &#123;</span><br><span class="line">	// 容错，第二个参数传函数的情况</span><br><span class="line">	if (typeof opts === &apos;function&apos;) &#123;</span><br><span class="line">		fn = opts;</span><br><span class="line">		opts = &#123;&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">	if (!opts) opts = &#123;&#125;;</span><br><span class="line">	var prefix = opts.prefix || &apos;__jp&apos;;</span><br><span class="line">	// 使用提供的回调名称，否则通过递增我们的计数器来生成唯一的名称</span><br><span class="line">	var id = opts.name || (prefix  + (count++));</span><br><span class="line">	var param = opts.param || &apos;callback&apos;;</span><br><span class="line">	var timeout = null != opts.timeout ? opts.timeout: 60000;</span><br><span class="line">	var enc = encodeURIComponent;</span><br><span class="line">	var target = document.getElementsByTagName(&apos;script&apos;)[0] || document.head;</span><br><span class="line">	var script;</span><br><span class="line">	var timer;</span><br><span class="line">	if (timeout) &#123;</span><br><span class="line">		timer = setTimeout(function() &#123;</span><br><span class="line">			cleanup();</span><br><span class="line">			if (fn) fn(new Error(&apos;Timeout&apos;));</span><br><span class="line">		&#125;, timeout);</span><br><span class="line">	&#125;</span><br><span class="line">	function cleanup() &#123;</span><br><span class="line">		if (script.parentNode) script.parentNode.removeChilde(script);</span><br><span class="line">		window[id] = noop;</span><br><span class="line">		if (timer) clearTimeout(timer);</span><br><span class="line">	&#125;</span><br><span class="line">	function cancel() &#123;</span><br><span class="line">		if (window[id]) &#123;</span><br><span class="line">			cleanup();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	window[id] = function(data) &#123;</span><br><span class="line">		cleanup()</span><br><span class="line">		if (fn) fn(null, data);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	url += (~url.indexOf(&apos;?&apos;) ? &apos;&amp;&apos;: &apos;?&apos;) + param + &apos;=&apos; + enc(id);</span><br><span class="line">	url = url.replace(&apos;?&amp;&apos;, &apos;?&apos;);</span><br><span class="line">	// create script</span><br><span class="line">	script = document.createElement(&apos;script&apos;);</span><br><span class="line">	script.src = url;</span><br><span class="line">	target.parentNode.insertBefore(script, target);</span><br><span class="line">	return cancel;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <ol>
+<li><p><a href="https://nginx.org/en/download.html" target="_blank" rel="noopener">Nginx下载地址</a></p>
+</li>
+<li><p>proxy_pass<br>nginx反向代理主要通过proxy_pass来配置，将你项目的开发机地址填写到proxy_pass后面，正常的格式为proxy_pass URL即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://10.10.10.10:20186;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Upstream模块实现负载均衡</p>
+</li>
+</ol>
+<ul>
+<li><p>ip_hash指令</p>
+</li>
+<li><p>server指令</p>
+</li>
+<li><p>upstream指令及相关变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 修改nginx.conf</span><br><span class="line">worker_processes 1;</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections 1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    upstream firstdemo &#123;</span><br><span class="line">        server 39.106.145.33;</span><br><span class="line">        server 47.93.6.93;</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen 8080;</span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass http://firstdemo;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>worker_processes</p>
+<ul>
+<li>工作进程数，和CPU核数相同</li>
+</ul>
+</li>
+<li><p>worker_connections</p>
+<ul>
+<li>每个进程允许的最大连接数</li>
+</ul>
+</li>
+<li><p>upstream模块</p>
+<ul>
+<li>负载均衡就靠它</li>
+<li>语法格式：upstream name {}</li>
+<li>里面写的两个server分别对应着不同的服务器</li>
+</ul>
+</li>
+<li><p>server模块</p>
+<ul>
+<li>实现反向代理</li>
+<li>listen监督端口号</li>
+<li>location / {}访问根路径</li>
+<li>proxy_pass <a href="http://firstdemo，代理到firstdemo里两个服务器上" target="_blank" rel="noopener">http://firstdemo，代理到firstdemo里两个服务器上</a><br>上面修改了nginx.conf之后，别忘了最重要的一步重启nginx<br>通过ip_hash使得用户第一次访问到其中一台服务器后，下次再访问的时候就直接访问该台服务器就好了<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream firstdemo &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 39.106.145.33;</span><br><span class="line">    server 47.93.6.93;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>ip_hash它的作用是如果第一次访问该服务器后就记录，之后再访问都是该服务器了，这样比如第一次访问是33服务器，那之后再访问也会分配为33服务器访问了</p>
+<p>参考文章:<br><a href="https://juejin.im/post/5b01336af265da0b8a67e5c9" target="_blank" rel="noopener">谁说前端不需要懂-Nginx反向代理与负载均衡</a></p>
+
       
     </div>
     
@@ -354,8 +401,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2019/06/12/发布订阅模块实现/" rel="next" title="发布订阅模块实现">
-                <i class="fa fa-chevron-left"></i> 发布订阅模块实现
+              <a href="/blog/2019/07/23/浏览器输入url到服务器响应全过程/" rel="next" title="浏览器输入url到服务器响应全过程">
+                <i class="fa fa-chevron-left"></i> 浏览器输入url到服务器响应全过程
               </a>
             
           </div>
@@ -363,10 +410,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2019/07/10/node网站部署/" rel="prev" title="node网站部署">
-                node网站部署 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -418,17 +461,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/blog/images/avatar.gif" alt="xunm">
           <p class="site-author-name" itemprop="name">xunm</p>
@@ -470,22 +504,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSONP原理"><span class="nav-number">1.</span> <span class="nav-text">JSONP原理</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
